@@ -1,9 +1,11 @@
 /*
- * main.c
- *
- *  Created on: Oct 16, 2019
- *      Author: pzecevic
- */
+ * Opis zadatka: 63. zadataka
+ * Kratak opis resenja:
+ * Ime: Petar
+ * Prezime: Zecevic
+ * Indeks: RA 43/2016
+ * Napomene:
+ **/
 #include <stdint.h>
 
 int8_t main()
