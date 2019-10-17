@@ -38,7 +38,10 @@ void SingleLinkedList_Destroy(SingleLinkedList_t* list)
   {
       elementToDelete = iterator;
       iterator = iterator->next;
-      list->destroy(elementToDelete->data);
+      if(list->destroy != NULL)
+      {
+          list->destroy(elementToDelete->data);
+      }
       free(elementToDelete);
   }
   list->head = NULL;
