@@ -13,8 +13,10 @@ void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void*
   list->destroy = destroy;
 }
 
-void SingleLinkedList_Insert(ListElement_t** currentElement, ListElement_t* newElement)
+void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData)
 {
+  ListElement_t* newElement = (ListElement_t*)malloc(sizeof(ListElement_t));
+  newElement->data = newData;
   newElement->next = *currentElement;
   *currentElement = newElement;
 }

@@ -36,14 +36,17 @@ typedef struct SingleLinkedList
 void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void* data));
 
 /*
- * Ubacuje novi element nakon trenutnog elementa koji je prosledjen po referenci.
+ * Kreira i ubacuje novi element koji ukazuje na prosledjene podatke,
+ * na jedno mesto pre trenutnog elementa koji je prosledjen po referenci.
+ * Nakon ubacivanja element prosledjen po referenci je azuriran tako da ukazuje na
+ * novi element koji je ubacen.
  * Pretpostavke:
  * - 'currentElement' != NULL
  * - '*currentElement' != NULL
  * - 'newElement' != NULL
  * - memorija za 'newElement' je zauzeta dinamicki.
 */
-void SingleLinkedList_Insert(ListElement_t** currentElement, ListElement_t* newElement);
+void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData);
 
 /*
  * Oslobadja memoriju zauzetu od strane svakog elementa prosledjene liste.
@@ -53,8 +56,9 @@ void SingleLinkedList_Insert(ListElement_t** currentElement, ListElement_t* newE
 void SingleLinkedList_Destroy(SingleLinkedList_t* list);
 
 /*
- * Oslobadja memoriju zauzetu od strane elementa koji je nalazi u prosledjenoj listi
- * nakon prosledjenog elementa po referenci.
+ * Oslobadja memoriju u listi zauzetu od strane elementa prosledjenog po referenci.
+ * Element prosledjen po referenci se azurira tako da nakon brisanja ukazuje na element
+ * posle njega.
  * Pri oslobadjanju elementa se oslobadjaju i njegovi podaci uspomoc funkcije 'destroy'.
  * Pretpostavke:
  * - 'list' != NULL
