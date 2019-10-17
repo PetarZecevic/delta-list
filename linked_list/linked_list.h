@@ -20,7 +20,7 @@ typedef struct SingleLinkedList
    * Funkcija koja ce biti pozvana pri brisanju podatka svakog elementa liste.
   */
   void (*destroy)(void* data);
-  struct ListElement_t* head;
+  ListElement_t* head;
 }SingleLinkedList_t;
 
 /*
@@ -30,7 +30,7 @@ typedef struct SingleLinkedList
 void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void* data));
 
 /*
- * Ubacuje podatak u prosledjenu listu iza prosledjenog elementa.
+ * Ubacuje podatak u prosledjenu listu nakon prosledjenog elementa.
  * Ako je vrednost prosledjenog elementa NULL ubacuje element na pocetak liste.
  * Ukoliko je prosledjeni element razlicit od NULL, pretpostavka je da se nalazi
  * u prosledjenoj listi, tj. ne radi se provera da li se dati element nalazi u listi.
@@ -43,7 +43,8 @@ void SingleLinkedList_Insert(SingleLinkedList_t* list, ListElement_t* element, v
 void SingleLinkedList_Destroy(SingleLinkedList_t* list);
 
 /*
- * Brise prosledjeni element iz prosledjene liste.
+ * Brise element nakon prosledjenog elementa iz prosledjene liste.
+ * Ako je vrednost elementa NULL onda brise prvi element iz liste.
 */
 void SingleLinkedList_Delete(SingleLinkedList_t* list, ListElement_t* element);
 
