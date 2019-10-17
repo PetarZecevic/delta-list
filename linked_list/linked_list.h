@@ -17,7 +17,7 @@ typedef struct ListElement
 typedef struct SingleLinkedList
 {
   /*
-   * Funkcija koja ce biti pozvana pri brisanju podatka svakog elementa liste.
+   * Funkcija koja ce biti pozvana pri brisanju podataka svakog elementa liste.
   */
   void (*destroy)(void* data);
   ListElement_t* head;
@@ -26,26 +26,41 @@ typedef struct SingleLinkedList
 /*
  * Inicijalizacija liste.
  * Mora biti pozvana pre prve upotrebe liste.
+ * Drugi parametar je funkcija koja ce biti pozvana pri oslobadjanju
+ * svakog elementa liste kako bi se oslobodili i njegovi podaci.
+ * Ako je 'destroy' funkcija jednaka NULL nece se pozivati prilikom oslobadjanja
+ * elemenata liste.
+ * Pretpostavke:
+ * - 'list' != NULL
 */
 void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void* data));
 
 /*
- * Ubacuje podatak u prosledjenu listu nakon prosledjenog elementa.
- * Ako je vrednost prosledjenog elementa NULL ubacuje element na pocetak liste.
- * Ukoliko je prosledjeni element razlicit od NULL, pretpostavka je da se nalazi
- * u prosledjenoj listi, tj. ne radi se provera da li se dati element nalazi u listi.
+ * Ubacuje novi element nakon trenutnog elementa koji je prosledjen po referenci.
+ * Pretpostavke:
+ * - 'currentElement' != NULL
+ * - '*currentElement' != NULL
+ * - 'newElement' != NULL
+ * - memorija za 'newElement' je zauzeta dinamicki.
 */
-void SingleLinkedList_Insert(SingleLinkedList_t* list, ListElement_t* element, void* data);
+void SingleLinkedList_Insert(ListElement_t** currentElement, ListElement_t* newElement);
 
 /*
- * Oslobadja memoriju zauzetu od svakog elementa prosledjene liste.
+ * Oslobadja memoriju zauzetu od strane svakog elementa prosledjene liste.
+ * Pretpostavke:
+ * - 'list' != NULL.
 */
 void SingleLinkedList_Destroy(SingleLinkedList_t* list);
 
 /*
- * Brise element nakon prosledjenog elementa iz prosledjene liste.
- * Ako je vrednost elementa NULL onda brise prvi element iz liste.
+ * Oslobadja memoriju zauzetu od strane elementa koji je nalazi u prosledjenoj listi
+ * nakon prosledjenog elementa po referenci.
+ * Pri oslobadjanju elementa se oslobadjaju i njegovi podaci uspomoc funkcije 'destroy'.
+ * Pretpostavke:
+ * - 'list' != NULL
+ * - 'element != NULL'
+ * - '*element' != NULL
 */
-void SingleLinkedList_Delete(SingleLinkedList_t* list, ListElement_t* element);
+void SingleLinkedList_Delete(const SingleLinkedList_t* list, ListElement_t** element);
 
 #endif /* LINKED_LIST_H_ */

@@ -4,38 +4,25 @@
  *  Created on: Oct 16, 2019
  *      Author: root
  */
-#include "linked_list.h"
 #include <stdlib.h>
+#include "linked_list.h"
 
 void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void* data))
 {
-  list->head = NULL;
+  list->head = (ListElement_t*)NULL;
   list->destroy = destroy;
 }
 
-void SingleLinkedList_Insert(SingleLinkedList_t* list, ListElement_t* element, void* data)
+void SingleLinkedList_Insert(ListElement_t** currentElement, ListElement_t* newElement)
 {
-  ListElement_t* tmpElement = (ListElement_t*)malloc(sizeof(ListElement_t));
-  tmpElement->data = data;
-  tmpElement->next = NULL;
-
-  if(element == NULL)
-  {
-      // Ubacuje na pocetak liste, pa je potrebno azurirati glavu.
-      tmpElement->next = list->head;
-      list->head = tmpElement;
-  }
-  else{
-      // Ubacuje posle prvog elementa.
-      tmpElement->next = element->next;
-      element->next = tmpElement;
-  }
+  newElement->next = *currentElement;
+  *currentElement = newElement;
 }
 
 void SingleLinkedList_Destroy(SingleLinkedList_t* list)
 {
   ListElement_t* iterator = list->head;
-  ListElement_t* elementToDelete = NULL;
+  ListElement_t* elementToDelete = (ListElement_t*)NULL;
   while(iterator != NULL)
   {
       elementToDelete = iterator;
@@ -46,23 +33,16 @@ void SingleLinkedList_Destroy(SingleLinkedList_t* list)
       }
       free(elementToDelete);
   }
-  list->head = NULL;
+  list->head = (ListElement_t*)NULL;
 }
 
-void SingleLinkedList_Delete(SingleLinkedList_t* list, ListElement_t* element)
+void SingleLinkedList_Delete(const SingleLinkedList_t* list, ListElement_t** element)
 {
-  if(element == NULL)
+  ListElement_t* tmpElement = *element;
+  *element = (*element)->next;
+  if(list->destroy != NULL)
   {
-      // Brisanje prvog elementa.
-      element = list->head;
-      list->head = list->head->next;
-      free(element);
+      list->destroy(tmpElement->data);
   }
-  else if(element->next != NULL)
-  {
-      // Brisanje ostalih elemenata.
-      ListElement_t* tmpElement = element->next;
-      element->next = element->next->next;
-      free(tmpElement);
-  }
+  free(tmpElement);
 }
