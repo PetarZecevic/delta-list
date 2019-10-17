@@ -17,6 +17,8 @@ void SingleLinkedList_Insert(SingleLinkedList_t* list, ListElement_t* element, v
 {
   ListElement_t* tmpElement = (ListElement_t*)malloc(sizeof(ListElement_t));
   tmpElement->data = data;
+  tmpElement->next = NULL;
+
   if(element == NULL)
   {
       // Ubacuje na pocetak liste, pa je potrebno azurirati glavu.
@@ -59,7 +61,8 @@ void SingleLinkedList_Delete(SingleLinkedList_t* list, ListElement_t* element)
   else if(element->next != NULL)
   {
       // Brisanje ostalih elemenata.
+      ListElement_t* tmpElement = element->next;
       element->next = element->next->next;
-      free(element);
+      free(tmpElement);
   }
 }
