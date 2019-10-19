@@ -9,7 +9,7 @@
 
 void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void* data))
 {
-  list->head = (ListElement_t*)NULL;
+  list->head = NULL;
   list->destroy = destroy;
 }
 
