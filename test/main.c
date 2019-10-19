@@ -38,8 +38,8 @@ void destroyFunc1(void* object)
 void testSingleInitializaton(void)
 {
 	SingleLinkedList_t list;
-	SingleLinkedList_Initialize(&list, NULL);
-	assert(list.head == NULL);
+	SingleLinkedList_Initialize(&list, (void(*)(void*))NULL);
+	assert(list.head == (ListElement_t*)NULL);
 	assert(list.destroy == NULL);
 
 	SingleLinkedList_Initialize(&list, destroyFunc1);
@@ -59,7 +59,8 @@ void testSingleInsertionAndDestroy(void)
 
 	// Kreiranje testnih objekata.
 	uint_least8_t index;
-	uint_least8_t* objects[3] = {NULL, NULL, NULL};
+	uint_least8_t* objects[3] = {(uint_least8_t*)NULL, (uint_least8_t*)NULL,
+			(uint_least8_t*)NULL};
 	for(index = 0; index < 3; index++)
 	{
 		objects[index] = (uint_least8_t*)malloc(sizeof(uint_least8_t));
@@ -69,12 +70,12 @@ void testSingleInsertionAndDestroy(void)
 	// Testiranje umetanja elementa na prvo mesto u listi.
 	for(index = 0; index < 3; index++)
 	{
-		SingleLinkedList_Insert(&list, NULL, objects[index]);
+		SingleLinkedList_Insert(&(list.head), objects[index]);
 		assert(*((uint_least8_t*)list.head->data) == *(objects[index]));
 	}
 	ListElement_t* current = list.head;
 	printf("\t");
-	while(current != NULL)
+	while(current != (ListElement_t*)NULL)
 	{
 		printf("%"PRIuLEAST16" ", *((uint_least8_t*)current->data));
 		current = current->next;
@@ -83,24 +84,24 @@ void testSingleInsertionAndDestroy(void)
 
 	// Testiranje oslobadjanja liste.
 	SingleLinkedList_Destroy(&list);
-	assert(list.head == NULL);
+	assert(list.head == (ListElement_t*)NULL);
 
 	// Testiranje ubacivanja elemenata testnog vektora na mesta u listi na kojima se oni nalaze u vektoru.
 	uint_least8_t testVector[] = {1, 2, 3};
 	SingleLinkedList_Initialize(&list, NULL);
 
-	SingleLinkedList_Insert(&list, NULL, &testVector[0]);
+	SingleLinkedList_Insert(&(list.head), &testVector[0]);
 	current = list.head;
 	for(index = 1; index < 3; index++)
 	{
-		SingleLinkedList_Insert(&list, current, &testVector[index]);
+		SingleLinkedList_Insert(&(current->next), &testVector[index]);
 		current = current->next;
 		assert(*((uint_least8_t*)current->data) == testVector[index]);
 	}
 
 	printf("\t");
 	current = list.head;
-	while(current != NULL)
+	while(current != (ListElement_t*)NULL)
 	{
 		printf("%"PRIuLEAST16" ", *((uint_least8_t*)current->data));
 		current = current->next;
@@ -108,7 +109,7 @@ void testSingleInsertionAndDestroy(void)
 	printf("\n");
 
 	SingleLinkedList_Destroy(&list);
-	assert(list.head == NULL);
+	assert(list.head == (ListElement_t*)NULL);
 }
 
 void testSingleDeletion(void)
@@ -120,35 +121,35 @@ void testSingleDeletion(void)
 	uint_least8_t index;
 	for(index = 0; index < 3; index++)
 	{
-		SingleLinkedList_Insert(&list, NULL, &testVector[index]);
+		SingleLinkedList_Insert(&(list.head), &testVector[index]);
 	}
 
 	// Brisanje glave liste tokom svake iteracije.
 	for(index = 0; index < 3; index++)
 	{
 		assert(*((uint_least8_t*)list.head->data) == testVector[3-index-1]);
-		SingleLinkedList_Delete(&list, NULL);
+		SingleLinkedList_Delete(&list, &(list.head));
 	}
-	assert(list.head == NULL);
+	assert(list.head == (ListElement_t*)NULL);
 
 	// Brisanje treceg i prvog elementa iz liste.
 	for(index = 0; index < 3; index++)
 	{
-		SingleLinkedList_Insert(&list, NULL, &testVector[index]);
+		SingleLinkedList_Insert(&(list.head), &testVector[index]);
 	}
 	ListElement_t* current = list.head;
 	printf("\t");
-	while(current != NULL)
+	while(current != (ListElement_t*)NULL)
 	{
 		printf("%"PRIuLEAST16" ", *((uint_least8_t*)current->data));
 		current = current->next;
 	}
 	printf("\n");
 
-	SingleLinkedList_Delete(&list, list.head->next);
-	SingleLinkedList_Delete(&list, NULL);
+	SingleLinkedList_Delete(&list, &(list.head->next->next));
+	SingleLinkedList_Delete(&list, &(list.head));
 	assert(*((uint_least8_t*)list.head->data) == testVector[1]);
-	assert(list.head->next == NULL);
+	assert(list.head->next == (ListElement_t*)NULL);
 }
 
 
