@@ -22,7 +22,21 @@ void DeltaList_Initialize(DeltaList_t* deltaList)
 void DeltaList_Add(DeltaList_t* deltaList, DeltaElement_t* newDeltaElement)
 {
   ListElement_t** currentRawElement = &(deltaList->rawList.head);
-  /*TODO: Process delta list to find correct position for new element.*/
+  DeltaElement_t* currentDeltaElement = NULL;
+  while(*currentRawElement != NULL)
+  {
+      currentDeltaElement = (DeltaElement_t*)((*currentRawElement)->data);
+      if(newDeltaElement->delay > currentDeltaElement->delay)
+      {
+          newDeltaElement->delay = UINT16_C(newDeltaElement->delay - currentDeltaElement->delay);
+          currentRawElement = &((*currentRawElement)->next);
+      }
+      else
+      {
+          currentDeltaElement->delay = UINT16_C(currentDeltaElement->delay - newDeltaElement->delay);
+          break;
+      }
+  }
   SingleLinkedList_Insert(currentRawElement, newDeltaElement);
 }
 
