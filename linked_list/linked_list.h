@@ -43,8 +43,6 @@ void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void*
  * Pretpostavke:
  * - 'currentElement' != NULL
  * - '*currentElement' != NULL
- * - 'newElement' != NULL
- * - memorija za 'newElement' je zauzeta dinamicki.
 */
 void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData);
 
