@@ -27,16 +27,25 @@
  *      MISRA 2004->2012 pravila:
  *      Pravilo 20.4 - Nije ispostovano jer su za implementaciju jednostruko spregnute liste i delta liste
  *      koriscene malloc i free funckije zbog fleksibilnosti, tj. broj elemenata nije ogranicen, ogranicen je
- *      kolicinom memorije koju sistem poseduje.
+ *      kolicinom memorije koju sistem poseduje. Takodje su ove dve funkcije koriscene tokom testiranja.
  *      Pravilo 17.6 - Nije ispostovano u funkciji za ubacivanje novog elementa u jednostruko spregnutu listu,
  *      zato sto je bilo potrebno azurirati ono na sta prosledjeni pokazivaci,koji su parametri funkcije, ukazuju ali se
  *      adrese na kojima se oni nalaze u memoriji nisu koristile u svrhe dodele i povratnih vrednosti posto su to lokalne
  *      promenljive, tako da je pravilo tehnicki ispostovano.
- *
+ *      Pravilo 8.1 - Nije ispostovano kada su u pitanju 'main' funkcija.
+ *      Pravilo 9.1 - Nije ispostovano kod projekata 'test' i 'main' jer se za inicijalizaciju lokalne promenljive
+ *      liste koristila posebna funkcija.
+ *      Pravilo 20.9 - Nije ispostovano u 'main' projektu jer se trazilo da korisnik unese elemente, pa je to realizovano
+ *      pa se interakcija sa korisnikom oslanjala na standardni ulaz i izlaz.
+ *      Nije ispostovano u projektu 'test' jer se standardni izlaz koristio za vizuelnu verifikaciju sadrzaja liste.
+ *      Pravilo 10.1 - Nije ispostovano u projektu 'test' i projektu 'linked list' jer se radi o konverziji
+ *      unutar 'assert' funkcije. Izuzetak ovog pravila je prosledjivanje 'NULL' pokazivaca ili dodela tamo gde se
+ *      ocekuje pokazivac nekog tipa.
  **/
 #include <stdint.h>
+#include <stdio.h>
 
-int8_t main()
+int8_t main(void)
 {
 	return INT8_C(0);
 }
