@@ -197,12 +197,15 @@ static void testDeltaAddAndDestroy(void)
 
 	DeltaList_t deltaList;
 	DeltaList_Initialize(&deltaList);
+
 	/*Testni vektori za popunjavanje delta liste.*/
-	DeltaElement_t* deltaTestVector[3] = {NULL, NULL, NULL};
-	uint_least16_t delayVector[3] = {UINT16_C(100), UINT16_C(200), UINT16_C(300)};
-	const char* idVector[3] = {"A", "B", "C"};
+	DeltaElement_t* deltaTestVector[5] = {NULL, NULL, NULL, NULL, NULL};
+	uint_least16_t delayVector[5] = {UINT16_C(10), UINT16_C(15), UINT16_C(12),
+			UINT16_C(22), UINT16_C(5)};
+	const char* idVector[5] = {"A", "B", "C", "D", "E"};
+
 	uint_least8_t index = UINT8_C(0);
-	for(; index < UINT8_C(3); index++)
+	for(; index < 5; index++)
 	{
 		deltaTestVector[index] = (DeltaElement_t*)malloc(sizeof(DeltaElement_t));
 		deltaTestVector[index]->object = NULL;
