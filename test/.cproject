@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.313723180" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug" postbuildStep="$(TI_PATH)/bin/cl6x -I${workspace_loc:/linked_list} --include_path=$(TI_PATH)/include --compile_only --check_misra=all $(C_SRCS)">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.313723180" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug" postbuildStep="$(TI_PATH)/bin/cl6x -I&quot;${workspace_loc:/linked_list}&quot; -I&quot;${workspace_loc:/delta_list}&quot; --include_path=$(TI_PATH)/include --compile_only --check_misra=all $(C_SRCS)">
 					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.313723180." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.1189547056" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.debug.1017221061" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
@@ -29,17 +29,20 @@
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.556467201" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.555667175" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/linked_list}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/delta_list}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.887178450" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=c11" valueType="string"/>
-								<option id="gnu.c.compiler.option.include.files.29143101" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" valueType="includeFiles"/>
+								<option id="gnu.c.compiler.option.include.files.29143101" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1044144250" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1143534537" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
 								<option id="gnu.c.link.option.paths.820804172" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/linked_list/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/delta_list/Debug}&quot;"/>
 								</option>
 								<option id="gnu.c.link.option.libs.1115516538" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="linked_list"/>
+									<listOptionValue builtIn="false" value="delta_list"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.307007887" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
