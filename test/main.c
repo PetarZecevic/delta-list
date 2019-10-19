@@ -63,13 +63,13 @@ static void testSingleInsertAndDestroy(void)
 	SingleLinkedList_Initialize(&list, &destroyFunc2);
 
 	/*Kreiranje testnih objekata.*/
-	uint_least8_t index;
 	uint_least8_t* objects[3] = {(uint_least8_t*)NULL, (uint_least8_t*)NULL,
 			(uint_least8_t*)NULL};
-	for(index = UINT8_C(0); index < UINT8_C(3); index++)
+	uint_fast8_t index = UINT8_C(0);
+	for(; index < UINT8_C(3); index++)
 	{
 		objects[index] = (uint_least8_t*)malloc(sizeof(uint_least8_t));
-		*(objects[index]) = index + UINT8_C(1);
+		*(objects[index]) = UINT8_C(index + 1);
 	}
 
 	/*Testiranje umetanja elementa na prvo mesto u listi.*/
@@ -111,8 +111,8 @@ static void testSingleDelete(void)
 	SingleLinkedList_Initialize(&list, NULL);
 
 	uint_least8_t testVector[] = {UINT8_C(1), UINT8_C(2), UINT8_C(3)};
-	uint_least8_t index;
-	for(index = UINT8_C(0); index < UINT8_C(3); index++)
+	uint_fast8_t index = UINT8_C(0);
+	for(; index < UINT8_C(3); index++)
 	{
 		SingleLinkedList_Insert(&(list.head), &testVector[index]);
 	}
@@ -121,7 +121,7 @@ static void testSingleDelete(void)
 	/*Brisanje glave liste tokom svake iteracije.*/
 	for(index = UINT8_C(0); index < UINT8_C(3); index++)
 	{
-		assert(*((uint_least8_t*)list.head->data) == testVector[UINT8_C(3)-index-UINT8_C(1)]);
+		assert(*((uint_least8_t*)list.head->data) == testVector[UINT8_C(3-index-1)]);
 		SingleLinkedList_Delete(&list, &(list.head));
 	}
 	assert(list.head == NULL);
@@ -204,8 +204,8 @@ static void testDeltaAddAndDestroy(void)
 			UINT16_C(22), UINT16_C(5)};
 	const char* idVector[5] = {"A", "B", "C", "D", "E"};
 
-	uint_least8_t index = UINT8_C(0);
-	for(; index < 5; index++)
+	uint_fast8_t index = UINT8_C(0);
+	for(; index < UINT8_C(5); index++)
 	{
 		deltaTestVector[index] = (DeltaElement_t*)malloc(sizeof(DeltaElement_t));
 		deltaTestVector[index]->object = NULL;
