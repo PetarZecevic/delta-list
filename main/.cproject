@@ -34,6 +34,14 @@
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.593714347" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.960917628" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
+								<option id="gnu.c.link.option.libs.403830287" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="delta_list"/>
+									<listOptionValue builtIn="false" value="linked_list"/>
+								</option>
+								<option id="gnu.c.link.option.paths.1576302278" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/delta_list/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/linked_list/Debug}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1763439374" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
