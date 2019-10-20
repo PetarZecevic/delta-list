@@ -46,9 +46,11 @@
  **/
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <inttypes.h>
 #include <string.h>
+#include <errno.h>
 #include "delta_list.h"
 
 /* Prikazuje opcije programa na standardni izlaz.
@@ -56,32 +58,81 @@
 static void printOptions(void);
 
 /* Ucitava ogranicen znakovni niz sa standardnog ulaza.
- * Ukoliko je niz karaktera sa standardnog ulaza veci od velicine prosledjenog
- * bufera, vraca 0.
- * Ukoliko je uspesno ucitan bafer, vracena je vrednost veca od 0.
- * Ukoliko dodje do greske vraca -1.
  */
-static int_least8_t scanner(char* buffer, uint_least8_t bufferLength);
+static bool scanner(char* buffer, uint_least8_t bufferLength);
 
+/* Prikazuje sadrzaj delta liste na standardni izlaz u formatu:
+ * [id elementa, kasnjenje] -> (sledeci element)
+ */
+static void printDeltaList(DeltaList_t* deltaList);
 void main(void)
 {
-	printf("\n--- Program za rukovanje delta listom --- \n");
+	DeltaList_t deltaList;
+	DeltaList_Initialize(&deltaList);
 	static char optionBuffer[2];
+	static char idBuffer[DELTA_MAX_ID_LENGTH];
+	static char delayBuffer[6];
 	bool programEnd = false;
+	printf("\n--- Program za rukovanje delta listom --- \n");
 	while(!programEnd)
 	{
 		printOptions();
-		if(scanner(optionBuffer, sizeof(optionBuffer)) > INT8_C(0))
+		if(scanner(optionBuffer, UINT8_C(sizeof(optionBuffer))))
 		{
 			switch(optionBuffer[0])
 			{
 			case '1':
+				printf("Identifikator elementa(1-%lu karaktera):", sizeof(idBuffer)-1);
+				if(!scanner(idBuffer, UINT8_C(sizeof(idBuffer))))
+				{
+					printf("Greska: Nevalidan unos identifikatora\n");
+					continue;
+				}
+				printf("Kasnjenje(0-%"PRIuLEAST16" milisekundi):", UINT_LEAST16_MAX);
+				if(!scanner(delayBuffer, UINT8_C(sizeof(delayBuffer))))
+				{
+					printf("Greska: Nevalidan unos kasnjenja\n");
+					continue;
+				}
+				/*Konverzija iz niza karaktera u neoznacen ceo broj.*/
+				errno = 0;
+				char* endptr = NULL;
+				int_least32_t delayNum = INT32_C(strtol(delayBuffer, &endptr, 10));
+				if(errno != 0 || (endptr != delayBuffer && *endptr == '\0'))
+				{
+					if(delayNum > UINT_LEAST16_MAX || delayNum < INT32_C(0))
+					{
+						printf("Greska: Broj van opsega\n");
+						continue;
+					}
+					/*Kreiranje i dodavanje elementa u listu.*/
+					DeltaElement_t* deltaElement = (DeltaElement_t*)malloc(sizeof(DeltaElement_t));
+					strncpy(deltaElement->id, idBuffer, DELTA_MAX_ID_LENGTH);
+					deltaElement->delay = UINT16_C(delayNum);
+					deltaElement->object = NULL;
+					DeltaList_Add(&deltaList, deltaElement);
+					printf("Dodat element [%s,%s]\n", idBuffer, delayBuffer);
+					printDeltaList(&deltaList);
+				}
+				else if(errno == ERANGE)
+				{
+					printf("Greska: Broj van opsega\n");
+				}
+				else
+				{
+					printf("Greska: Nevalidan broj\n");
+				}
 				break;
 			case '2':
+				DeltaList_Destroy(&deltaList);
+				printf("Elementi liste su oslobodjeni\n");
+				printDeltaList(&deltaList);
 				break;
 			case '3':
+				printDeltaList(&deltaList);
 				break;
 			case '4':
+				DeltaList_Destroy(&deltaList);
 				return;
 			default:
 				printf("Greska: Nepostojeca opcija\n");
@@ -93,18 +144,31 @@ void main(void)
 		}
 		printf("\n**********\n\n");
 	}
+
 }
 
-static int_least8_t scanner(char* buffer, uint_least8_t bufferLength)
+static void printOptions(void)
 {
+	printf("Opcije:\n");
+	printf("1) Dodavanje novog elementa\n");
+	printf("2) Brisanje liste\n");
+	printf("3) Prikaz liste\n");
+	printf("4) Izlazak iz programa\n");
+	printf("Unos:");
+}
+
+static bool scanner(char* buffer, uint_least8_t bufferLength)
+{
+	if(bufferLength == 0)
+		return false;
+
 	const uint_least8_t MAX_FORMAT_LENGTH = UINT8_C(32);
 	char format[MAX_FORMAT_LENGTH];
 	memset(format, '\0', (size_t)MAX_FORMAT_LENGTH);
-	if(bufferLength == 0)
-		return INT8_C(0);
 	snprintf(format, MAX_FORMAT_LENGTH, "%%%"PRIuLEAST8"s", UINT8_C(bufferLength-1));
 	int_least8_t result = INT8_C(scanf(format, buffer));
-	// Proveri da li je ostalo jos znakova sa standardnog ulaza.
+
+	/*Provera da li je ostalo jos znakova sa standardnog ulaza.*/
 	bool restClear = true;
 	char ch = (char)getchar();
 	if(ch != '\n' && ch != EOF)
@@ -116,18 +180,28 @@ static int_least8_t scanner(char* buffer, uint_least8_t bufferLength)
 			;
 		}
 	}
-	if(!restClear)
-		return INT8_C(0);
-	else
-		return result;
+
+	return (restClear && result > INT8_C(0)) ? true : false;
 }
 
-static void printOptions(void)
+static void printDeltaList(DeltaList_t* deltaList)
 {
-	printf("Opcije:\n");
-	printf("1) Dodavanje novog elementa\n");
-	printf("2) Brisanje liste\n");
-	printf("3) Prikaz liste\n");
-	printf("4) Izlazak iz programa\n");
-	printf("Unos:");
+	printf("Sadrzaj liste:\t");
+	if(deltaList->rawList.head != NULL)
+	{
+		ListElement_t* current = deltaList->rawList.head;
+		while(current != NULL)
+		{
+			printf("[%s:%"PRIuLEAST16"]->",
+							((DeltaElement_t*)current->data)->id,
+							((DeltaElement_t*)current->data)->delay);
+			current = current->next;
+		}
+		printf("NULL");
+	}
+	else
+	{
+		printf("Prazna lista");
+	}
+	printf("\n");
 }
