@@ -6,6 +6,7 @@
  */
 #include <stdlib.h>
 #include "delta_list.h"
+#include "assert.h"
 
 static void destroyDeltaElement(void* element)
 {
@@ -16,11 +17,14 @@ static void destroyDeltaElement(void* element)
 
 void DeltaList_Initialize(DeltaList_t* deltaList)
 {
+  assert(deltaList != NULL);
   SingleLinkedList_Initialize(&(deltaList->rawList), &destroyDeltaElement);
 }
 
 void DeltaList_Add(DeltaList_t* deltaList, DeltaElement_t* newDeltaElement)
 {
+  assert(deltaList != NULL);
+  assert(newDeltaElement != NULL);
   ListElement_t** currentRawElement = &(deltaList->rawList.head);
   DeltaElement_t* currentDeltaElement = NULL;
   while(*currentRawElement != NULL)
@@ -42,5 +46,6 @@ void DeltaList_Add(DeltaList_t* deltaList, DeltaElement_t* newDeltaElement)
 
 void DeltaList_Destroy(DeltaList_t* deltaList)
 {
+  assert(deltaList != NULL);
   SingleLinkedList_Destroy(&(deltaList->rawList));
 }
