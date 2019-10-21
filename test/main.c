@@ -69,6 +69,7 @@ static void testSingleInsertAndDestroy(void)
 	for(; index < UINT8_C(3); index++)
 	{
 		objects[index] = (uint_least8_t*)malloc(sizeof(uint_least8_t));
+		assert(objects[index] != NULL);
 		*(objects[index]) = UINT8_C(index + UINT8_C(1));
 	}
 
@@ -208,6 +209,7 @@ static void testDeltaAddAndDestroy(void)
 	for(; index < UINT8_C(5); index++)
 	{
 		deltaTestVector[index] = (DeltaElement_t*)malloc(sizeof(DeltaElement_t));
+		assert(deltaTestVector[index] != NULL);
 		deltaTestVector[index]->object = NULL;
 		deltaTestVector[index]->delay = delayVector[index];
 		strncpy(deltaTestVector[index]->id, idVector[index], (size_t)DELTA_MAX_ID_LENGTH);
