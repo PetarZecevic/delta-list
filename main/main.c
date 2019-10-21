@@ -1,30 +1,38 @@
 /*
+ * Ime: Petar
+ *
+ * Prezime: Zecevic
+ *
+ * Indeks: RA 43/2016
+ *
  * Opis zadatka: 63. zadatak
+ *
  * Kratak opis resenja:
- * U sklopu resenja su napravljena 4 eclipse projekta.
- *      1) Projekat 'linked_list' sadrzi izvorni kod i binarni fajl dinamicke biblioteke
+ * U sklopu resenja su napravljena 4 Eclipse projekta.
+ *      1) Projekat 'linked_list' sadrzi izvorni kod i objektnu datoteku dinamicke biblioteke
  *         koja sluzi za rukovanje jednostruko spregnutom listom.
- *      2) Projekat 'delta_list' sadrzi izvorni kod i binarni fajl dinamicke biblioteke
+ *      2) Projekat 'delta_list' sadrzi izvorni kod i objektnu datoteku dinamicke biblioteke
  *         koja sluzi za rukovanje delta listom. Ovaj projekat zavisi od dinamicke biblioteke
  *         projekta 1).
  *      3) Projekat 'test' koji sadrzi izvorni kod zaduzen za testiranje funkcionalnosti
  *         delta liste i jednostruko spregnute liste. Funkcije su implementirane po uzoru
- *         na model jedinicnog testiranja. Zavisi od dinamickih biblioteka projekata 1) i 2)
+ *         na model jedinicnog testiranja. Zavisi od dinamickih biblioteka projekata 1) i 2).
  *      4) Projekat 'main' sadrzi main.c datoteku koja sluzi za interakciju sa korisnikom.
- *         Zavisi od dinamickih biblioteka projekata 1) i 2)
- *		5) Projekat 'delta_proj' predstavlja korenski projekat koji objedinjuje izvorni kod svih prethodno
- *		   navedenih projekata u jednu celinu. Sadrzi fajl xml projectSet.psf koji opisuje strukturu projekata.
- *      Upustvo:
- *      - Projekti su povezani u jednu celinu uspomoc 'Team Project Set' funckionalnosti eclipse-a.
- *      Kako bi svi projekti bili ucitani u eclipse okruzenje potrebno je importovati fajl koji predstavlja
- *      opis strukture projekata na sledeci nacin:
- *              File -> Import -> Team -> Team Project Set -> URL -> http_link_projekta/projectSet.psf -> Finish
- *              http_link_projekta => https://svn.riouxsvn.com/delta_proj
+ *         Zavisi od dinamickih biblioteka projekata 1) i 2).
+ *		5) Projekat 'delta_proj' predstavlja korenski direktorijum koji objedinjuje sve prethodno navedene
+ *		   projekte u jednu celinu. Sadrzi xml datoteku projectSet.psf koja opisuje strukturu projekata.
+ *
+ * 		Upustvo:
+ *  		-Projekti su povezani u jednu celinu uspomoc 'Team Project Set' funckionalnosti Eclipse-a.
+ *  	  	Kako bi svi projekti bili ucitani u Eclipse okruzenje potrebno je importovati datoteku koja predstavlja
+ *    		opis strukture projekata na sledeci nacin:
+ *
+ *    		File -> Import -> Team -> Team Project Set -> URL -> http_link_projekta/projectSet.psf -> Finish
+ *     	 	http_link_projekta => https://svn.riouxsvn.com/delta_proj
+ *
  * Za proveru MISRA pravila je koriscen Texas Instruments kompajler sa vezbi, na nacin kako je to radjeno u
  * poslednjoj vezbi.
- * Ime: Petar
- * Prezime: Zecevic
- * Indeks: RA 43/2016
+ *
  * Napomene:
  *      MISRA 2004->2012 pravila:
  *      Pravilo 20.4 - Nije ispostovano jer su za implementaciju jednostruko spregnute liste i delta liste
@@ -111,6 +119,12 @@ void main(void)
 					}
 					/*Kreiranje i dodavanje elementa u listu.*/
 					DeltaElement_t* deltaElement = (DeltaElement_t*)malloc(sizeof(DeltaElement_t));
+					assert(deltaElement != NULL);
+					if(deltaElement == NULL)
+					{
+						printf("Greska: Nema dovoljno memorije za dodavanje novog elementa");
+						continue;
+					}
 					strncpy(deltaElement->id, idBuffer, (size_t)DELTA_MAX_ID_LENGTH);
 					deltaElement->delay = UINT16_C(delayNum);
 					deltaElement->object = NULL;
