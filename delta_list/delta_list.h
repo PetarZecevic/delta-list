@@ -42,7 +42,7 @@ void DeltaList_Initialize(DeltaList_t* deltaList);
  * - 'deltaList' != NULL
  * - 'newElement' != NULL
  * - memorija na koju ukazuje prosledjeni pokazivac delta elementa je dinamicki zauzeta.
- * - memorija na koju ukazuje DeltaElement_t.object polje strukture je dinamicki zauzeta.
+ * - memorija na koju ukazuje DeltaElement_t.object polje strukture je dinamicki zauzeta ili je NULL.
  */
 void DeltaList_Add(DeltaList_t* deltaList, DeltaElement_t* newDeltaElement);
 
