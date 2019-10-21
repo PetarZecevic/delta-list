@@ -21,7 +21,8 @@ void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData)
   assert(currentElement != NULL);
   ListElement_t* newElement = (ListElement_t*)malloc(sizeof(ListElement_t));
   assert(newElement != NULL);
-  if(newElement != NULL){
+  if(newElement != NULL)
+  {
       newElement->data = newData;
       newElement->next = *currentElement;
       *currentElement = newElement;
