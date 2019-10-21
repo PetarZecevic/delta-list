@@ -42,7 +42,6 @@ void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void*
  * novi element koji je ubacen.
  * Pretpostavke:
  * - 'currentElement' != NULL
- * - '*currentElement' != NULL
 */
 void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData);
 
