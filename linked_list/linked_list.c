@@ -5,16 +5,20 @@
  *      Author: root
  */
 #include <stdlib.h>
+#include <assert.h>
+
 #include "linked_list.h"
 
 void SingleLinkedList_Initialize(SingleLinkedList_t* list, void (*destroy)(void* data))
 {
+  assert(list != NULL);
   list->head = NULL;
   list->destroy = destroy;
 }
 
 void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData)
 {
+  assert(currentElement != NULL);
   ListElement_t* newElement = (ListElement_t*)malloc(sizeof(ListElement_t));
   newElement->data = newData;
   newElement->next = *currentElement;
@@ -23,6 +27,7 @@ void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData)
 
 void SingleLinkedList_Destroy(SingleLinkedList_t* list)
 {
+  assert(list != NULL);
   ListElement_t* iterator = list->head;
   ListElement_t* elementToDelete = (ListElement_t*)NULL;
   while(iterator != NULL)
@@ -40,6 +45,9 @@ void SingleLinkedList_Destroy(SingleLinkedList_t* list)
 
 void SingleLinkedList_Delete(const SingleLinkedList_t* list, ListElement_t** element)
 {
+  assert(list != NULL);
+  assert(element != NULL);
+  assert(*element != NULL);
   ListElement_t* tmpElement = *element;
   *element = (*element)->next;
   if(list->destroy != NULL)
