@@ -20,9 +20,12 @@ void SingleLinkedList_Insert(ListElement_t** currentElement, void* newData)
 {
   assert(currentElement != NULL);
   ListElement_t* newElement = (ListElement_t*)malloc(sizeof(ListElement_t));
-  newElement->data = newData;
-  newElement->next = *currentElement;
-  *currentElement = newElement;
+  assert(newElement != NULL);
+  if(newElement != NULL){
+      newElement->data = newData;
+      newElement->next = *currentElement;
+      *currentElement = newElement;
+  }
 }
 
 void SingleLinkedList_Destroy(SingleLinkedList_t* list)
