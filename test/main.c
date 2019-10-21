@@ -69,7 +69,7 @@ static void testSingleInsertAndDestroy(void)
 	for(; index < UINT8_C(3); index++)
 	{
 		objects[index] = (uint_least8_t*)malloc(sizeof(uint_least8_t));
-		*(objects[index]) = UINT8_C(index + 1);
+		*(objects[index]) = UINT8_C(index + UINT8_C(1));
 	}
 
 	/*Testiranje umetanja elementa na prvo mesto u listi.*/
@@ -121,7 +121,7 @@ static void testSingleDelete(void)
 	/*Brisanje glave liste tokom svake iteracije.*/
 	for(index = UINT8_C(0); index < UINT8_C(3); index++)
 	{
-		assert(*((uint_least8_t*)list.head->data) == testVector[UINT8_C(3-index-1)]);
+		assert(*((uint_least8_t*)list.head->data) == testVector[UINT8_C(UINT8_C(2)-index)]);
 		SingleLinkedList_Delete(&list, &(list.head));
 	}
 	assert(list.head == NULL);
